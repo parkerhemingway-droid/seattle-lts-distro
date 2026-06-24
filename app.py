@@ -15,6 +15,38 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# ---------------------------------------------------------------------------
+# Password protection
+# ---------------------------------------------------------------------------
+def check_password():
+    """Returns `True` if the user had the correct password."""
+    if "password_correct" not in st.session_state:
+        st.session_state.password_correct = False
+
+    if st.session_state.password_correct:
+        return True
+
+    with st.form("password_form"):
+        st.write("## 🔐 Enter Password")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Login")
+
+        if submitted:
+            # Set this to your desired password
+            correct_password = os.getenv("DASHBOARD_PASSWORD", "ltsearch2024")
+            if password == correct_password:
+                st.session_state.password_correct = True
+                st.rerun()
+            else:
+                st.error("❌ Incorrect password")
+                return False
+
+    st.stop()
+
+
+if not check_password():
+    st.stop()
+
 from src.db import get_workspace_client, get_sql_connection
 from src.google_docs import create_envelope_doc
 from src.queries import (
