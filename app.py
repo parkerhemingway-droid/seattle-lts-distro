@@ -33,7 +33,7 @@ def check_password():
 
         if submitted:
             # Set this to your desired password
-            correct_password = os.getenv("DASHBOARD_PASSWORD", "ltsearch2024")
+            correct_password = os.getenv("DASHBOARD_PASSWORD", "SeattleEcon2025")
             if password == correct_password:
                 st.session_state.password_correct = True
                 st.rerun()
